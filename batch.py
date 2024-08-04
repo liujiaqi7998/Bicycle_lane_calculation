@@ -55,10 +55,10 @@ def main():
                 # 记录文件名和预测数量
                 results_data.append({
                     "filename": filename,
-                    "predict_count": len(results)
+                    "predict_count": len(results[0].boxes)
                 })
 
-                logger.success(f"在 {filename} 处理了 {len(results)} 点位")
+                logger.success(f"在 {filename} 处理了 {len(results[0].boxes)} 点位")
 
     # 生成 CSV 文件
     csv_path = os.path.join(BASE_DIR, "图片批量处理", "log.csv")
