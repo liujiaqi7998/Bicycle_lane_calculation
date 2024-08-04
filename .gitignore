@@ -161,4 +161,4 @@ Segmentation/train
 Segmentation/valid
 yolov8n.pt
 yolov8n-seg.pt
-
+*.csv

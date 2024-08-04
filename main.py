@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-import cv2
 from loguru import logger
 from ultralytics import YOLO
 import gradio as gr
