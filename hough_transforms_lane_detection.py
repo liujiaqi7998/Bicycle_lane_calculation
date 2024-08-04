@@ -114,7 +114,8 @@ def predict_image(pic):
 
     # 拷贝帧图片
     dmy = image[:, :, 0].copy()
-
+    max_distance = -1
+    distance_between_lines = -1
     if lines is not None:
         line_pair, max_distance = find_two_most_distant_lines(lines)
         longest_lines = find_longest_lines(line_pair)
@@ -131,7 +132,7 @@ def predict_image(pic):
 
 
 
-    return dmy
+    return dmy,max_distance,distance_between_lines
 
 
 def main():
@@ -141,7 +142,7 @@ def main():
         inputs=[
             gr.Image(type="pil", label="上传图片"),
         ],
-        outputs=gr.Image(type="pil", label="输出图片"),
+        outputs=[gr.Image(type="pil", label="输出图片"),gr.Text(label="横向相隔最远的两条线之间的距离"),gr.Text(label="纵向最长的两条线之间的最小距离")],
         title="自行车路线",
         description="",
     )
