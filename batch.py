@@ -7,6 +7,8 @@ import pandas as pd
 from loguru import logger
 from ultralytics import YOLO
 
+from hough_transforms_lane_detection import predict_image
+
 # 正确获取当前运行目录
 BASE_DIR = Path(__file__).resolve().parent
 # 加载路面坑洞模型
@@ -35,9 +37,19 @@ def main():
 
             # 使用 OpenCV 加载图片
             img = cv2.imread(file_path)
+
             if img is not None:
                 # 将 BGR 格式转换为 RGB 格式
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+                max_distance = 0
+                distance_between_lines = 0
+
+                try:
+                    dmy, max_distance, distance_between_lines = predict_image(img)
+                except:
+                    pass
+
                 results = Segmentation_bestModel.predict(
                     source=img,
                     conf=conf_threshold,
@@ -55,7 +67,9 @@ def main():
                 # 记录文件名和预测数量
                 results_data.append({
                     "filename": filename,
-                    "predict_count": len(results[0].boxes)
+                    "predict_count": len(results[0].boxes),
+                    "max_distance": max_distance,
+                    "distance_between_lines": distance_between_lines
                 })
 
                 logger.success(f"在 {filename} 处理了 {len(results[0].boxes)} 点位")
